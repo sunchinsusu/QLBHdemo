@@ -52,10 +52,6 @@ public class Customer implements Serializable {
 
     public Customer() {
     }
-    
-    public Customer(String name) {
-        this.name = name;
-    }
 
     public Customer(Integer id) {
         this.id = id;

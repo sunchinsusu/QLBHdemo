@@ -85,4 +85,10 @@
             30
         </session-timeout>
     </session-config>
+    <ejb-local-ref>
+        <ejb-ref-name>BillFacade</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>com.nguyentienthuat.sessionbean.BillFacadeLocal</local>
+        <ejb-link>QLBHdemo-ejb.jar#BillFacade</ejb-link>
+    </ejb-local-ref>
 </web-app>

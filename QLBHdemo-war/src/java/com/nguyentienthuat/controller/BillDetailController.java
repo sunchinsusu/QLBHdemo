@@ -1,22 +1,35 @@
-/*
+    /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package com.nguyentienthuat.controller;
 
+import com.nguyentienthuat.connection.DAO;
 import com.nguyentienthuat.entity.Bill;
 import com.nguyentienthuat.entity.BillDetail;
 import com.nguyentienthuat.sessionbean.BillDetailFacadeLocal;
 import com.nguyentienthuat.sessionbean.BillFacadeLocal;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
 
 /**
  *
@@ -40,7 +53,7 @@ public class BillDetailController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, ClassNotFoundException, SQLException{
         String action = request.getParameter("action");
         if(action.equals("Delete")){
             String idBillStr = request.getParameter("id");
@@ -51,6 +64,24 @@ public class BillDetailController extends HttpServlet {
                 billDetailFacade.remove(bd);
             }
             billFacade.remove(bill);
+            response.sendRedirect("./HomeController?action=Bill Manager");
+        }
+        else if(action.equals("PrintReport")){
+            String idBillStr = request.getParameter("id");
+            int idBill = Integer.parseInt(idBillStr);
+            Map<String, Object> parameters = new HashMap<String, Object>();  
+            parameters.put("idBill", idBill);
+            try {
+                Connection con = DAO.getConnection();
+                JasperReport jr = JasperCompileManager.compileReport("C:/Users/Custom/Documents/EJB/QLBHdemo/QLBHdemo-war/src/java/com/nguyentienthuat/report/BillReport.jrxml");
+                JasperPrint jp = JasperFillManager.fillReport(jr, parameters,con);
+                JasperFillManager.fillReport(jr, parameters);
+                String urlResult = "C:/Users/Custom/Documents/EJB/QLBHdemoReport/BillReport"+idBillStr+".pdf";
+                JasperExportManager.exportReportToPdfFile(jp, urlResult);
+            } catch (JRException ex) {
+                Logger.getLogger(BillDetailController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
             response.sendRedirect("./HomeController?action=Bill Manager");
         }
     }
@@ -67,7 +98,13 @@ public class BillDetailController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(BillDetailController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(BillDetailController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -81,7 +118,13 @@ public class BillDetailController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(BillDetailController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(BillDetailController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

@@ -36,11 +36,16 @@ public class CustomerController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         String action = request.getParameter("action");
+        
         if(action.equals("Add")){
+            
             String name = request.getParameter("name");
-            Customer customer = new Customer(name);
+            Customer customer = new Customer();
+            customer.setName(name);
             customerFacade.save(customer);
+            
             ArrayList<Customer> customers = new ArrayList<>(customerFacade.findAll());
             request.setAttribute("customers", customers);
             request.getRequestDispatcher("/customer.jsp").forward(request, response);

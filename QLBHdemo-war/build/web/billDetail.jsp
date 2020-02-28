@@ -49,6 +49,7 @@
         <form action="./BillDetailController" method="post">
             <input type="hidden" name="id" value="${bill.id}"/>        
             <input type="submit" name="action" value="Delete"/>
+            <input type="submit" name="action" value="PrintReport"/>
         </form>
     </body>
 </html>

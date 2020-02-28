@@ -30,6 +30,6 @@ public interface BillDetailFacadeLocal {
 
     int count();
 
-    void save(BillDetail billDetail);
+    Integer save(BillDetail billDetail);
     
 }

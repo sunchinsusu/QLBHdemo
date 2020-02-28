@@ -53,11 +53,6 @@ public class BillDetail implements Serializable {
     public BillDetail() {
     }
 
-    public BillDetail(Product idProduct, int quantity) {
-        this.idProduct = idProduct;
-        this.quantity = quantity;
-    }
-    
     public BillDetail(Integer id) {
         this.id = id;
     }
@@ -121,7 +116,7 @@ public class BillDetail implements Serializable {
 
     @Override
     public String toString() {
-        return "com.nguyentienthuat.entity.BillDetail[ id=" + id + " ]";
+        return "com.nguyentienthuat.entity.Billdetail[ id=" + id + " ]";
     }
     
 }

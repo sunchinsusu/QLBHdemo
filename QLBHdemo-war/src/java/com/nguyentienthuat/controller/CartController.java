@@ -53,9 +53,11 @@ public class CartController extends HttpServlet {
             throws ServletException, IOException {
         String action = request.getParameter("action");
         if(action.equals("Create Bill")){
+            
             HttpSession session = request.getSession();
             ArrayList<BillDetail> cart = (ArrayList<BillDetail>) session.getAttribute("cart");
             Customer customer = (Customer) session.getAttribute("customer");
+            int total = (int) session.getAttribute("total");
             Bill bill = new Bill();
             
             Calendar cal = Calendar.getInstance();
@@ -74,7 +76,7 @@ public class CartController extends HttpServlet {
             
             session.removeAttribute("customer");
             session.removeAttribute("cart");
-            
+            session.removeAttribute("total");
             response.sendRedirect("./HomeController?action=Bill Manager");
         }
         else if(action.equals("Add to Cart")){
@@ -85,6 +87,9 @@ public class CartController extends HttpServlet {
             
             HttpSession session = request.getSession();
             ArrayList<BillDetail> cart = (ArrayList<BillDetail>) session.getAttribute("cart");
+            int total = (int) session.getAttribute("total");
+            
+            total = total + productFacade.FindById(idProduct).getPrice()*quantity;
             
             boolean isExist = false;
             
@@ -97,7 +102,9 @@ public class CartController extends HttpServlet {
             }
             
             if(isExist==false){
-                BillDetail billDetail = new BillDetail(productFacade.FindById(idProduct),quantity);
+                BillDetail billDetail = new BillDetail();
+                billDetail.setIdProduct(productFacade.FindById(idProduct));
+                billDetail.setQuantity(quantity);
                 cart.add(billDetail);
             }
             
@@ -112,9 +119,11 @@ public class CartController extends HttpServlet {
             
             HttpSession session = request.getSession();
             ArrayList<BillDetail> cart = (ArrayList<BillDetail>) session.getAttribute("cart");
+            int total = (int) session.getAttribute("total");
             
             for(BillDetail bd : cart){
                 if(bd.getIdProduct().getId()==idProduct){
+                    total = total - bd.getIdProduct().getPrice()*bd.getQuantity();
                     cart.remove(bd);
                     break;
                 }

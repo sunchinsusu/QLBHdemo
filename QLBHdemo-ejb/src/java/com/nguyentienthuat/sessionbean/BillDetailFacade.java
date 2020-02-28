@@ -66,9 +66,12 @@ public class BillDetailFacade extends AbstractFacade<BillDetail> implements Bill
     }
 
     @Override
-    public void save(BillDetail billDetail) {
+    public Integer save(BillDetail billDetail) {
         em.persist(billDetail);
         em.flush();
+        return billDetail.getId();
     }
+
+
     
 }

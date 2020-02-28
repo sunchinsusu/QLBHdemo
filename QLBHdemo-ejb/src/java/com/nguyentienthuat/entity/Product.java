@@ -53,14 +53,9 @@ public class Product implements Serializable {
     @Column(name = "price")
     private int price;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idProduct")
-    private List<BillDetail> billDetailList;
+    private List<BillDetail> billdetailList;
 
     public Product() {
-    }
-    
-    public Product(String name, int price) {
-        this.name = name;
-        this.price = price;
     }
 
     public Product(Integer id) {
@@ -98,12 +93,12 @@ public class Product implements Serializable {
     }
 
     @XmlTransient
-    public List<BillDetail> getBillDetailList() {
-        return billDetailList;
+    public List<BillDetail> getBilldetailList() {
+        return billdetailList;
     }
 
-    public void setBillDetailList(List<BillDetail> billDetailList) {
-        this.billDetailList = billDetailList;
+    public void setBilldetailList(List<BillDetail> billdetailList) {
+        this.billdetailList = billdetailList;
     }
 
     @Override

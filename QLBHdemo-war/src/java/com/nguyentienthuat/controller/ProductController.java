@@ -41,8 +41,13 @@ public class ProductController extends HttpServlet {
         if(action.equals("Add")){
             String name = request.getParameter("name");
             String priceStr = request.getParameter("price");
-            Product product = new Product(name,Integer.parseInt(priceStr));
+            
+            Product product = new Product();
+            product.setName(name);
+            product.setPrice(Integer.parseInt(priceStr));
+            
             productFacade.create(product);
+            
             ArrayList<Product> products = new ArrayList<>(productFacade.findAll());
             request.setAttribute("products", products);
             request.getRequestDispatcher("/product.jsp").forward(request, response);

@@ -59,10 +59,13 @@ public class BillController extends HttpServlet {
             ArrayList<BillDetail> cart = (ArrayList<BillDetail>) session.getAttribute("cart");
             if(cart!=null){
                 session.removeAttribute("cart");
+                session.removeAttribute("total");
             }
             else{
                 cart = new ArrayList<>();
+                int total = 0;
                 session.setAttribute("cart", cart);
+                session.setAttribute("total", total);
             }
             
             ArrayList<Product> products = new ArrayList<>( productFacade.findAll());

@@ -49,7 +49,6 @@ public class Bill implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "date")
-    @Temporal(TemporalType.DATE)
     private Date date;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idBill")
     private List<BillDetail> billDetailList;
