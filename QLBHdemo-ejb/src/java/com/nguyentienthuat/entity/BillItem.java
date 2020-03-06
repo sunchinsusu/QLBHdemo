@@ -25,13 +25,15 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Custom
  */
 @Entity
-@Table(name = "billdetail")
+@Table(name = "bill_item")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "BillDetail.findAll", query = "SELECT b FROM BillDetail b")
-    , @NamedQuery(name = "BillDetail.findById", query = "SELECT b FROM BillDetail b WHERE b.id = :id")
-    , @NamedQuery(name = "BillDetail.findByQuantity", query = "SELECT b FROM BillDetail b WHERE b.quantity = :quantity")})
-public class BillDetail implements Serializable {
+    @NamedQuery(name = "BillItem.findAll", query = "SELECT b FROM BillItem b")
+    , @NamedQuery(name = "BillItem.findById", query = "SELECT b FROM BillItem b WHERE b.id = :id")
+    , @NamedQuery(name = "BillItem.findByIdBill", query = "SELECT b FROM BillItem b WHERE b.idBill = :idBill")    
+    , @NamedQuery(name = "BillItem.findByQuantity", query = "SELECT b FROM BillItem b WHERE b.quantity = :quantity")
+    , @NamedQuery(name = "BillItem.findByUnitPrice", query = "SELECT b FROM BillItem b WHERE b.unitPrice = :unitPrice")})
+public class BillItem implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -43,6 +45,10 @@ public class BillDetail implements Serializable {
     @NotNull
     @Column(name = "quantity")
     private int quantity;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "unit_price")
+    private float unitPrice;
     @JoinColumn(name = "id_bill", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Bill idBill;
@@ -50,16 +56,17 @@ public class BillDetail implements Serializable {
     @ManyToOne(optional = false)
     private Product idProduct;
 
-    public BillDetail() {
+    public BillItem() {
     }
 
-    public BillDetail(Integer id) {
+    public BillItem(Integer id) {
         this.id = id;
     }
 
-    public BillDetail(Integer id, int quantity) {
+    public BillItem(Integer id, int quantity, float unitPrice) {
         this.id = id;
         this.quantity = quantity;
+        this.unitPrice = unitPrice;
     }
 
     public Integer getId() {
@@ -76,6 +83,14 @@ public class BillDetail implements Serializable {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public float getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(float unitPrice) {
+        this.unitPrice = unitPrice;
     }
 
     public Bill getIdBill() {
@@ -104,10 +119,10 @@ public class BillDetail implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof BillDetail)) {
+        if (!(object instanceof BillItem)) {
             return false;
         }
-        BillDetail other = (BillDetail) object;
+        BillItem other = (BillItem) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -116,7 +131,7 @@ public class BillDetail implements Serializable {
 
     @Override
     public String toString() {
-        return "com.nguyentienthuat.entity.Billdetail[ id=" + id + " ]";
+        return "com.nguyentienthuat.entity.BillItem[ id=" + id + " ]";
     }
     
 }

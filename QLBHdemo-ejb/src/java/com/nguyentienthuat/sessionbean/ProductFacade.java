@@ -6,7 +6,6 @@
 package com.nguyentienthuat.sessionbean;
 
 import com.nguyentienthuat.entity.Product;
-import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -32,42 +31,7 @@ public class ProductFacade extends AbstractFacade<Product> implements ProductFac
     }
 
     @Override
-    public int count() {
-        return super.count(); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<Product> findRange(int[] range) {
-        return super.findRange(range); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<Product> findAll() {
-        return super.findAll(); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Product find(Object id) {
-        return super.find(id); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void remove(Product entity) {
-        super.remove(entity); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void edit(Product entity) {
-        super.edit(entity); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void create(Product entity) {
-        super.create(entity); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Product FindById(Integer id) {
+    public Product findById(int id) {
         Query query = em.createNamedQuery("Product.findById");
         query.setParameter("id", id);
         return (Product) query.getSingleResult();

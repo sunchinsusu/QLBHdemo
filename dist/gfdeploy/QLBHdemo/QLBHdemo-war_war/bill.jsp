@@ -37,6 +37,7 @@
                 <th>Id</th>
                 <th>Date</th>
                 <th>Customer</th>
+                <th>Status</th>
                 <th></th>
             </tr>
             <c:forEach var="bill" items="${bills}">
@@ -46,6 +47,7 @@
                         <td>${bill.id}</td>
                         <td>${bill.date}</td>
                         <td>${bill.getIdCustomer().getName()}</td>
+                        <td>${bill.getStatus()}</td>
                         <td><input type="submit" name="action" value="View Detail"/></td>
                     </tr>
                 </form>

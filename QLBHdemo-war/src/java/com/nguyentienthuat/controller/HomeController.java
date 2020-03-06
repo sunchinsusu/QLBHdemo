@@ -6,7 +6,7 @@
 package com.nguyentienthuat.controller;
 
 import com.nguyentienthuat.entity.Bill;
-import com.nguyentienthuat.entity.BillDetail;
+import com.nguyentienthuat.entity.BillItem;
 import com.nguyentienthuat.entity.Customer;
 import com.nguyentienthuat.entity.Product;
 import com.nguyentienthuat.sessionbean.BillFacadeLocal;

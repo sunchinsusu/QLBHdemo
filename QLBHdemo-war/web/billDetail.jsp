@@ -33,7 +33,7 @@
                 <th>Price</th>
                 <th>Quantity</th>
             </tr>
-            <c:forEach var="billDetail" items="${billDetails}">
+            <c:forEach var="billDetail" items="${billItems}">
                 <tr>
                     <td>${billDetail.getIdProduct().getName()}</td>
                     <td>${billDetail.getIdProduct().getPrice()}</td>
@@ -50,6 +50,9 @@
             <input type="hidden" name="id" value="${bill.id}"/>        
             <input type="submit" name="action" value="Delete"/>
             <input type="submit" name="action" value="PrintReport"/>
+            <c:if test="${bill.getStatus()!='Paid off'}">
+                <input type="submit" name="action" value="Pay"/>
+            </c:if>
         </form>
     </body>
 </html>

@@ -22,7 +22,6 @@
             <br/><br/>
             <input type="submit" name="action" value="Submit"/>
         </form>
-        <br/>
         <c:if test="${mes != null}">
             <h4>${mes}</h4>
         </c:if>

@@ -30,6 +30,6 @@ public interface ProductFacadeLocal {
 
     int count();
 
-    Product FindById(Integer id);
+    Product findById(int id);
     
 }

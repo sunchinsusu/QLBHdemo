@@ -6,7 +6,7 @@
 package com.nguyentienthuat.entity;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -24,6 +24,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -37,24 +38,33 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Bill.findAll", query = "SELECT b FROM Bill b")
     , @NamedQuery(name = "Bill.findById", query = "SELECT b FROM Bill b WHERE b.id = :id")
-    , @NamedQuery(name = "Bill.findByDate", query = "SELECT b FROM Bill b WHERE b.date = :date")})
+    , @NamedQuery(name = "Bill.findByDate", query = "SELECT b FROM Bill b WHERE b.date = :date")
+    , @NamedQuery(name = "Bill.findByStatus", query = "SELECT b FROM Bill b WHERE b.status = :status")})
 public class Bill implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    //public enum statusValue{Unpaid, Not even paid off yet, Paid off};
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "date")
+    @Temporal(TemporalType.DATE)
     private Date date;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idBill")
-    private List<BillDetail> billDetailList;
+    @Size(max = 1000)
+    @Column(name = "status")
+    private String status;
     @JoinColumn(name = "id_customer", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Customer idCustomer;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idBill")
+    private List<BillItem> billItemList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idBill")
+    private List<PayDetail> payDetailList;
 
     public Bill() {
     }
@@ -84,13 +94,12 @@ public class Bill implements Serializable {
         this.date = date;
     }
 
-    @XmlTransient
-    public List<BillDetail> getBillDetailList() {
-        return billDetailList;
+    public String getStatus() {
+        return status;
     }
 
-    public void setBillDetailList(List<BillDetail> billDetailList) {
-        this.billDetailList = billDetailList;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Customer getIdCustomer() {
@@ -99,6 +108,24 @@ public class Bill implements Serializable {
 
     public void setIdCustomer(Customer idCustomer) {
         this.idCustomer = idCustomer;
+    }
+
+    @XmlTransient
+    public List<BillItem> getBillItemList() {
+        return billItemList;
+    }
+
+    public void setBillItemList(List<BillItem> billItemList) {
+        this.billItemList = billItemList;
+    }
+
+    @XmlTransient
+    public List<PayDetail> getPayDetailList() {
+        return payDetailList;
+    }
+
+    public void setPayDetailList(List<PayDetail> payDetailList) {
+        this.payDetailList = payDetailList;
     }
 
     @Override

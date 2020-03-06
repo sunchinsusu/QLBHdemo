@@ -3,9 +3,22 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/Custom/Documents/EJB/QLBHdemo/QLBHdemo-ejb/src/java/com/nguyentienthuat/sessionbean/BillItemFacade.java</file>
             <file>file:/C:/Users/Custom/Documents/EJB/QLBHdemo/QLBHdemo-ejb/src/java/com/nguyentienthuat/entity/Bill.java</file>
+            <file>file:/C:/Users/Custom/Documents/EJB/QLBHdemo/QLBHdemo-ejb/src/java/com/nguyentienthuat/sessionbean/PayDetailFacade.java</file>
             <file>file:/C:/Users/Custom/Documents/EJB/QLBHdemo/QLBHdemo-ejb/src/java/com/nguyentienthuat/sessionbean/BillFacade.java</file>
-            <file>file:/C:/Users/Custom/Documents/EJB/QLBHdemo/QLBHdemo-ejb/src/java/com/nguyentienthuat/sessionbean/BillDetailFacade.java</file>
+            <file>file:/C:/Users/Custom/Documents/EJB/QLBHdemo/QLBHdemo-ejb/src/java/com/nguyentienthuat/sessionbean/BillItemFacadeLocal.java</file>
+            <file>file:/C:/Users/Custom/Documents/EJB/QLBHdemo/QLBHdemo-ejb/src/java/com/nguyentienthuat/sessionbean/UserFacade.java</file>
+            <file>file:/C:/Users/Custom/Documents/EJB/QLBHdemo/QLBHdemo-ejb/src/java/com/nguyentienthuat/sessionbean/CustomerFacade.java</file>
+            <file>file:/C:/Users/Custom/Documents/EJB/QLBHdemo/QLBHdemo-ejb/src/java/com/nguyentienthuat/sessionbean/CustomerFacadeLocal.java</file>
+            <file>file:/C:/Users/Custom/Documents/EJB/QLBHdemo/QLBHdemo-ejb/src/java/com/nguyentienthuat/sessionbean/ProductFacade.java</file>
+            <file>file:/C:/Users/Custom/Documents/EJB/QLBHdemo/QLBHdemo-ejb/src/java/com/nguyentienthuat/entity/Customer.java</file>
+            <file>file:/C:/Users/Custom/Documents/EJB/QLBHdemo/QLBHdemo-ejb/src/java/com/nguyentienthuat/entity/BillItem.java</file>
+            <file>file:/C:/Users/Custom/Documents/EJB/QLBHdemo/QLBHdemo-ejb/src/java/com/nguyentienthuat/sessionbean/AbstractFacade.java</file>
+            <file>file:/C:/Users/Custom/Documents/EJB/QLBHdemo/QLBHdemo-ejb/src/java/com/nguyentienthuat/sessionbean/ProductFacadeLocal.java</file>
+            <file>file:/C:/Users/Custom/Documents/EJB/QLBHdemo/QLBHdemo-ejb/src/java/com/nguyentienthuat/entity/Product.java</file>
+            <file>file:/C:/Users/Custom/Documents/EJB/QLBHdemo/QLBHdemo-ejb/src/java/com/nguyentienthuat/sessionbean/PayDetailFacadeLocal.java</file>
+            <file>file:/C:/Users/Custom/Documents/EJB/QLBHdemo/QLBHdemo-ejb/src/java/com/nguyentienthuat/sessionbean/BillFacadeLocal.java</file>
         </group>
     </open-files>
 </project-private>

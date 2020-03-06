@@ -7,9 +7,11 @@ package com.nguyentienthuat.controller;
 
 import com.nguyentienthuat.connection.DAO;
 import com.nguyentienthuat.entity.Bill;
-import com.nguyentienthuat.entity.BillDetail;
-import com.nguyentienthuat.sessionbean.BillDetailFacadeLocal;
+import com.nguyentienthuat.entity.BillItem;
+import com.nguyentienthuat.entity.PayDetail;
 import com.nguyentienthuat.sessionbean.BillFacadeLocal;
+import com.nguyentienthuat.sessionbean.BillItemFacadeLocal;
+import com.nguyentienthuat.sessionbean.PayDetailFacadeLocal;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -38,7 +40,10 @@ import net.sf.jasperreports.engine.JasperReport;
 public class BillDetailController extends HttpServlet {
 
     @EJB
-    private BillDetailFacadeLocal billDetailFacade;
+    private PayDetailFacadeLocal payDetailFacade;
+
+    @EJB
+    private BillItemFacadeLocal billItemFacade;
 
     @EJB
     private BillFacadeLocal billFacade;
@@ -59,10 +64,17 @@ public class BillDetailController extends HttpServlet {
             String idBillStr = request.getParameter("id");
             int idBill = Integer.parseInt(idBillStr);
             Bill bill = billFacade.findById(idBill);
-            ArrayList<BillDetail> billDetails = new ArrayList<>(bill.getBillDetailList());
-            for(BillDetail bd : billDetails){
-                billDetailFacade.remove(bd);
+            
+            ArrayList<BillItem> billItems = new ArrayList<>(bill.getBillItemList());
+            for(BillItem bi : billItems){
+                billItemFacade.remove(bi);
             }
+            
+            ArrayList<PayDetail> payDetails = new ArrayList<>(bill.getPayDetailList());
+            for(PayDetail pd : payDetails){
+                payDetailFacade.remove(pd);
+            }
+            
             billFacade.remove(bill);
             response.sendRedirect("./HomeController?action=Bill Manager");
         }
@@ -75,7 +87,6 @@ public class BillDetailController extends HttpServlet {
                 Connection con = DAO.getConnection();
                 JasperReport jr = JasperCompileManager.compileReport("C:/Users/Custom/Documents/EJB/QLBHdemo/QLBHdemo-war/src/java/com/nguyentienthuat/report/BillReport.jrxml");
                 JasperPrint jp = JasperFillManager.fillReport(jr, parameters,con);
-                JasperFillManager.fillReport(jr, parameters);
                 String urlResult = "C:/Users/Custom/Documents/EJB/QLBHdemoReport/BillReport"+idBillStr+".pdf";
                 JasperExportManager.exportReportToPdfFile(jp, urlResult);
             } catch (JRException ex) {
@@ -83,6 +94,30 @@ public class BillDetailController extends HttpServlet {
             }
             
             response.sendRedirect("./HomeController?action=Bill Manager");
+        }
+        else if(action.equals("Pay")){
+            String idStr = request.getParameter("id");
+            Bill bill = billFacade.findById(Integer.parseInt(idStr));
+            ArrayList<BillItem> billItems = new ArrayList<>(bill.getBillItemList());
+            float total = 0;
+            for(BillItem bi : billItems){
+                total += (bi.getQuantity())*(bi.getIdProduct().getPrice());
+            }
+            ArrayList<PayDetail> payDetails = new ArrayList<>(payDetailFacade.findByIdBill(Integer.parseInt(idStr)));
+            ArrayList<String> methods = new ArrayList<>();
+            methods.add("Credit Cart");
+            methods.add("Currency");
+            
+            String mes = request.getParameter("mes");
+            if(mes!=null){
+                request.setAttribute("mes", mes);
+            }
+            request.setAttribute("total", total);
+            request.setAttribute("bill", bill);
+            request.setAttribute("billItems", billItems);
+            request.setAttribute("payDetails", payDetails);
+            request.setAttribute("methods", methods);
+            request.getRequestDispatcher("/pay.jsp").forward(request, response);
         }
     }
 

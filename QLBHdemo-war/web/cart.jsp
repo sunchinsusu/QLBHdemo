@@ -24,13 +24,13 @@
                 <th>Quantity</th>
                 <th></th>
             </tr>
-            <c:forEach var="billDetail" items="${cart}">
+            <c:forEach var="billItem" items="${cart}">
                 <form action="./CartController" method="post">
-                    <input type="hidden" name="idProduct" value="${billDetail.getIdProduct().getId()}"/>
+                    <input type="hidden" name="idProduct" value="${billItem.getIdProduct().getId()}"/>
                     <tr>
-                        <td>${billDetail.getIdProduct().getName()}</td>
-                        <td>${billDetail.getIdProduct().getPrice()}</td>
-                        <td>${billDetail.quantity}</td>
+                        <td>${billItem.getIdProduct().getName()}</td>
+                        <td>${billItem.getUnitPrice()}</td>
+                        <td>${billItem.quantity}</td>
                         <td><input type="submit" name="action" value="Remove"/></td>
                     </tr>
                 </form>

@@ -5,18 +5,24 @@
  */
 package com.nguyentienthuat.sessionbean;
 
-import com.nguyentienthuat.entity.BillDetail;
+import com.nguyentienthuat.entity.Bill;
+import com.nguyentienthuat.entity.BillItem;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
  * @author Custom
  */
 @Stateless
-public class BillDetailFacade extends AbstractFacade<BillDetail> implements BillDetailFacadeLocal {
+public class BillItemFacade extends AbstractFacade<BillItem> implements BillItemFacadeLocal {
+
+    @EJB
+    private BillFacadeLocal billFacade;
 
     @PersistenceContext(unitName = "QLBHdemo-ejbPU")
     private EntityManager em;
@@ -26,8 +32,8 @@ public class BillDetailFacade extends AbstractFacade<BillDetail> implements Bill
         return em;
     }
 
-    public BillDetailFacade() {
-        super(BillDetail.class);
+    public BillItemFacade() {
+        super(BillItem.class);
     }
 
     @Override
@@ -36,42 +42,48 @@ public class BillDetailFacade extends AbstractFacade<BillDetail> implements Bill
     }
 
     @Override
-    public List<BillDetail> findRange(int[] range) {
+    public List<BillItem> findRange(int[] range) {
         return super.findRange(range); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<BillDetail> findAll() {
+    public List<BillItem> findAll() {
         return super.findAll(); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public BillDetail find(Object id) {
+    public BillItem find(Object id) {
         return super.find(id); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void remove(BillDetail entity) {
+    public void remove(BillItem entity) {
         super.remove(entity); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void edit(BillDetail entity) {
+    public void edit(BillItem entity) {
         super.edit(entity); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void create(BillDetail entity) {
+    public void create(BillItem entity) {
         super.create(entity); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Integer save(BillDetail billDetail) {
-        em.persist(billDetail);
+    public int save(BillItem billItem) {
+        em.persist(billItem);
         em.flush();
-        return billDetail.getId();
+        return billItem.getId();
     }
 
-
+    @Override
+    public List<BillItem> findByIdBill(int idBill) {
+        Bill bill = billFacade.findById(idBill);
+        Query query = em.createNamedQuery("BillItem.findByIdBill");
+        query.setParameter("idBill", bill);
+        return query.getResultList();
+    }
     
 }

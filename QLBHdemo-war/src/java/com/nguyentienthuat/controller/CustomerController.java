@@ -44,7 +44,7 @@ public class CustomerController extends HttpServlet {
             String name = request.getParameter("name");
             Customer customer = new Customer();
             customer.setName(name);
-            customerFacade.save(customer);
+            customerFacade.create(customer);
             
             ArrayList<Customer> customers = new ArrayList<>(customerFacade.findAll());
             request.setAttribute("customers", customers);

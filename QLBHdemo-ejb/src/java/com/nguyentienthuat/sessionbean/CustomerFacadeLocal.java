@@ -30,9 +30,6 @@ public interface CustomerFacadeLocal {
 
     int count();
 
-    Customer findById(Integer id);
-
-    void save(Customer customer);
-
+    Customer findById(int id);
     
 }

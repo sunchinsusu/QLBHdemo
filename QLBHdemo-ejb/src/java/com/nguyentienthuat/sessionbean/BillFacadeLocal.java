@@ -30,10 +30,9 @@ public interface BillFacadeLocal {
 
     int count();
 
-    Bill findById(Integer id);
+    Bill findById(int id);
 
-    Integer save(Bill bill);
-
+    int save(Bill bill);
 
     
 }

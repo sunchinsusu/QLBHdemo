@@ -3,7 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/Custom/Documents/EJB/QLBHdemo/QLBHdemo-war/src/java/com/nguyentienthuat/controller/ProductDetailController.java</file>
+            <file>file:/C:/Users/Custom/Documents/EJB/QLBHdemo/QLBHdemo-war/src/java/com/nguyentienthuat/controller/CustomerDetailController.java</file>
+            <file>file:/C:/Users/Custom/Documents/EJB/QLBHdemo/QLBHdemo-war/src/java/com/nguyentienthuat/controller/HomeController.java</file>
             <file>file:/C:/Users/Custom/Documents/EJB/QLBHdemo/QLBHdemo-war/src/java/com/nguyentienthuat/controller/CartController.java</file>
+            <file>file:/C:/Users/Custom/Documents/EJB/QLBHdemo/QLBHdemo-war/src/java/com/nguyentienthuat/controller/ProductController.java</file>
+            <file>file:/C:/Users/Custom/Documents/EJB/QLBHdemo/QLBHdemo-war/web/bill.jsp</file>
+            <file>file:/C:/Users/Custom/Documents/EJB/QLBHdemo/QLBHdemo-war/src/java/com/nguyentienthuat/controller/BillController.java</file>
+            <file>file:/C:/Users/Custom/Documents/EJB/QLBHdemo/QLBHdemo-war/web/billDetail.jsp</file>
+            <file>file:/C:/Users/Custom/Documents/EJB/QLBHdemo/QLBHdemo-war/src/java/com/nguyentienthuat/controller/CustomerController.java</file>
+            <file>file:/C:/Users/Custom/Documents/EJB/QLBHdemo/QLBHdemo-war/src/java/com/nguyentienthuat/controller/BillDetailController.java</file>
+            <file>file:/C:/Users/Custom/Documents/EJB/QLBHdemo/QLBHdemo-war/web/cart.jsp</file>
         </group>
     </open-files>
 </project-private>

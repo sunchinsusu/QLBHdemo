@@ -6,7 +6,7 @@
 package com.nguyentienthuat.controller;
 
 import com.nguyentienthuat.entity.Bill;
-import com.nguyentienthuat.entity.BillDetail;
+import com.nguyentienthuat.entity.BillItem;
 import com.nguyentienthuat.entity.Customer;
 import com.nguyentienthuat.entity.Product;
 import com.nguyentienthuat.sessionbean.BillFacadeLocal;
@@ -56,14 +56,14 @@ public class BillController extends HttpServlet {
             Customer customer = customerFacade.findById(Integer.parseInt(idCustomerStr));
             session.setAttribute("customer", customer);
             
-            ArrayList<BillDetail> cart = (ArrayList<BillDetail>) session.getAttribute("cart");
+            ArrayList<BillItem> cart = (ArrayList<BillItem>) session.getAttribute("cart");
             if(cart!=null){
                 session.removeAttribute("cart");
                 session.removeAttribute("total");
             }
             else{
                 cart = new ArrayList<>();
-                int total = 0;
+                float total = 0;
                 session.setAttribute("cart", cart);
                 session.setAttribute("total", total);
             }
@@ -75,14 +75,14 @@ public class BillController extends HttpServlet {
         else if(action.equals("View Detail")){
             String idStr = request.getParameter("id");
             Bill bill = billFacade.findById(Integer.parseInt(idStr));
-            ArrayList<BillDetail> billDetails = new ArrayList<>(bill.getBillDetailList());
-            int total = 0;
-            for(BillDetail bd : billDetails){
-                total += (bd.getQuantity())*(bd.getIdProduct().getPrice());
+            ArrayList<BillItem> billItems = new ArrayList<>(bill.getBillItemList());
+            float total = 0;
+            for(BillItem bi : billItems){
+                total += (bi.getQuantity())*(bi.getIdProduct().getPrice());
             }
             request.setAttribute("total", total);
             request.setAttribute("bill", bill);
-            request.setAttribute("billDetails", billDetails);
+            request.setAttribute("billItems", billItems);
             request.getRequestDispatcher("/billDetail.jsp").forward(request, response);
         }
     }

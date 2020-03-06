@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4409548b-90f5-4216-9409-b971f9355ec4">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="175"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -43,23 +43,65 @@
 			<pen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
 	<subDataset name="Item" uuid="1c70c123-ed7c-449d-93a5-7196e7653727">
 		<parameter name="id" class="java.lang.Integer">
 			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
 		<queryString>
-			<![CDATA[SELECT p.name, p.price, bd.quantity
-FROM bill b JOIN billdetail bd ON b.id = bd.id_bill
-            JOIN Product p ON p.id = bd.id_product
+			<![CDATA[SELECT p.name, bi.unit_price, bi.quantity
+FROM bill b JOIN bill_item bi ON b.id = bi.id_bill
+            JOIN Product p ON p.id = bi.id_product
 WHERE b.id =  $P{id}]]>
 		</queryString>
 		<field name="name" class="java.lang.String">
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
-		<field name="price" class="java.lang.Integer">
+		<field name="unit_price" class="java.lang.Float">
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
 		<field name="quantity" class="java.lang.Integer">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+	</subDataset>
+	<subDataset name="Payment" uuid="6be51e94-77d8-4a7a-833a-37d89a8dc0d2">
+		<parameter name="idBill" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT pd.date, pd.amount, pd.payment_method, pd.note
+FROM pay_detail pd
+WHERE pd.id_bill =$P{idBill} ]]>
+		</queryString>
+		<field name="date" class="java.sql.Date">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="amount" class="java.lang.Float">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="payment_method" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="note" class="java.lang.String">
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
 	</subDataset>
@@ -67,7 +109,7 @@ WHERE b.id =  $P{id}]]>
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[SELECT c.name, b.date
+		<![CDATA[SELECT c.name, b.date, b.status
 FROM bill b JOIN customer c ON b.id_customer = c.id
 WHERE b.id = $P{idBill}]]>
 	</queryString>
@@ -75,6 +117,9 @@ WHERE b.id = $P{idBill}]]>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="status" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<title>
@@ -89,7 +134,7 @@ WHERE b.id = $P{idBill}]]>
 		</band>
 	</title>
 	<detail>
-		<band height="275" splitType="Stretch">
+		<band height="440" splitType="Stretch">
 			<staticText>
 				<reportElement x="19" y="12" width="74" height="20" uuid="13d9c09e-cd93-4de0-be43-00b6c2b6c716"/>
 				<textElement>
@@ -98,7 +143,7 @@ WHERE b.id = $P{idBill}]]>
 				<text><![CDATA[Customer:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="19" y="55" width="74" height="20" uuid="21b74fea-8bb4-4db6-881a-c338c053f8be"/>
+				<reportElement x="19" y="45" width="74" height="20" uuid="21b74fea-8bb4-4db6-881a-c338c053f8be"/>
 				<textElement>
 					<font size="15"/>
 				</textElement>
@@ -106,14 +151,20 @@ WHERE b.id = $P{idBill}]]>
 			</staticText>
 			<textField>
 				<reportElement x="119" y="12" width="170" height="20" uuid="b74d3c11-abd0-4694-bc6b-bcfc6208e2bb"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="119" y="55" width="170" height="20" uuid="3771ec03-2d2e-40b3-8643-a20cd40ec4e5"/>
+				<reportElement x="119" y="45" width="170" height="20" uuid="3771ec03-2d2e-40b3-8643-a20cd40ec4e5"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
 			</textField>
 			<componentElement>
-				<reportElement key="table 1" style="table 1" x="119" y="134" width="270" height="50" uuid="8a68c97c-2101-44e6-bcfa-4ee61529fbfe"/>
+				<reportElement key="table 1" style="table 1" x="178" y="149" width="171" height="50" uuid="8a68c97c-2101-44e6-bcfa-4ee61529fbfe"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="Item" uuid="b234dee7-aa5d-4c77-a840-5f042468b847">
 						<datasetParameter name="id">
@@ -144,8 +195,8 @@ WHERE b.id = $P{idBill}]]>
 						</jr:tableHeader>
 						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="20" uuid="6afd609c-fab3-4948-a7d7-391fea43202f"/>
-								<textFieldExpression><![CDATA[$F{price}]]></textFieldExpression>
+								<reportElement x="0" y="0" width="90" height="20" uuid="2ba74cdc-e521-485b-9f2f-141da1bd2d65"/>
+								<textFieldExpression><![CDATA[$F{unit_price}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -166,12 +217,100 @@ WHERE b.id = $P{idBill}]]>
 				</jr:table>
 			</componentElement>
 			<staticText>
-				<reportElement x="119" y="103" width="143" height="31" uuid="7600cca8-0225-4fce-8b74-b1c90f96299b"/>
+				<reportElement x="190" y="106" width="143" height="31" uuid="7600cca8-0225-4fce-8b74-b1c90f96299b"/>
 				<textElement>
 					<font size="24"/>
 				</textElement>
 				<text><![CDATA[List Product]]></text>
 			</staticText>
+			<componentElement>
+				<reportElement key="table 2" style="table 2" x="138" y="320" width="266" height="50" uuid="c1f2debc-1993-45dc-b5b0-27945f3ca257"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Payment" uuid="5f9e9b0b-2df7-4030-9977-af55a5297449">
+						<datasetParameter name="idBill">
+							<datasetParameterExpression><![CDATA[$P{idBill}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="90" uuid="8737ac01-d284-4013-8d72-c9c58ff18e30">
+						<jr:tableHeader style="table 2_TH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="bc8863e3-974e-40c2-afe6-3ccf7e9a0901"/>
+								<text><![CDATA[Date]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table 2_TD" height="20">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="23199438-07bd-4280-8624-aab0185ffeb9"/>
+								<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="278c3caf-13c6-4b7c-968a-92560e2d63dd">
+						<jr:tableHeader style="table 2_TH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="33688459-9240-4025-9b93-5fea6c1aa2e1"/>
+								<text><![CDATA[Amount]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table 2_TD" height="20">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="6b8fb4a7-9520-47fd-8a22-1076f8e6e626"/>
+								<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="951df01b-8a79-4675-b7cf-00dd0b033930">
+						<jr:tableHeader style="table 2_TH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="07b063ad-c01f-4415-ae97-ea9b1af0a55b"/>
+								<text><![CDATA[PaymentMethod]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table 2_TD" height="20">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="98247383-5199-4c62-ac3f-9226cf438413"/>
+								<textFieldExpression><![CDATA[$F{payment_method}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="8dbc7ac0-1022-47f5-989e-aca6c4da2293">
+						<jr:tableHeader style="table 2_TH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="5748e6cf-14d4-43a7-b274-1c9868706a69"/>
+								<text><![CDATA[note]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table 2_TD" height="20">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="15914b6e-1e19-4b20-a588-7538f8b7519f"/>
+								<textFieldExpression><![CDATA[$F{note}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement x="190" y="279" width="174" height="31" uuid="460f7d0e-f39e-4486-8813-42ef55ab594f"/>
+				<textElement>
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[Payment history]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="19" y="76" width="74" height="20" uuid="4ca87c17-5dd5-4e9f-9185-ad33433143a3"/>
+				<textElement>
+					<font size="15"/>
+				</textElement>
+				<text><![CDATA[Status:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="119" y="76" width="170" height="20" uuid="95020e3b-3c9a-45df-a184-eae62f97f8b6"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 </jasperReport>

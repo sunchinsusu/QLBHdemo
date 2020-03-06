@@ -54,7 +54,7 @@ public class ProductController extends HttpServlet {
         }
         else if(action.equals("View Detail")){
             String idStr = request.getParameter("id");
-            Product product = productFacade.FindById(Integer.parseInt(idStr));
+            Product product = productFacade.findById(Integer.parseInt(idStr));
             request.setAttribute("product", product);
             request.getRequestDispatcher("/productDetail.jsp").forward(request, response);
         }

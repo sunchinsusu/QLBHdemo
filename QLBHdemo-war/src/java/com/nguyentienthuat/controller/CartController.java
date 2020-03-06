@@ -6,15 +6,15 @@
 package com.nguyentienthuat.controller;
 
 import com.nguyentienthuat.entity.Bill;
-import com.nguyentienthuat.entity.BillDetail;
+import com.nguyentienthuat.entity.BillItem;
 import com.nguyentienthuat.entity.Customer;
 import com.nguyentienthuat.entity.Product;
-import com.nguyentienthuat.sessionbean.BillDetailFacadeLocal;
 import com.nguyentienthuat.sessionbean.BillFacadeLocal;
+import com.nguyentienthuat.sessionbean.BillItemFacadeLocal;
 import com.nguyentienthuat.sessionbean.ProductFacadeLocal;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -38,7 +38,7 @@ public class CartController extends HttpServlet {
     private ProductFacadeLocal productFacade;
 
     @EJB
-    private BillDetailFacadeLocal billDetailFacade;
+    private BillItemFacadeLocal billItemFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -55,23 +55,24 @@ public class CartController extends HttpServlet {
         if(action.equals("Create Bill")){
             
             HttpSession session = request.getSession();
-            ArrayList<BillDetail> cart = (ArrayList<BillDetail>) session.getAttribute("cart");
+            ArrayList<BillItem> cart = (ArrayList<BillItem>) session.getAttribute("cart");
             Customer customer = (Customer) session.getAttribute("customer");
-            int total = (int) session.getAttribute("total");
+            float total = (float) session.getAttribute("total");
             Bill bill = new Bill();
             
             Calendar cal = Calendar.getInstance();
-            Date date = new Date(cal.getTime().getTime());
+            Date date = cal.getTime();
             
             bill.setIdCustomer(customer);
             bill.setDate(date);
+            bill.setStatus("Unpaid");
             
             int id = billFacade.save(bill);
             bill.setId(id);
             
-            for(BillDetail bd : cart){
-                bd.setIdBill(bill);
-                billDetailFacade.save(bd);
+            for(BillItem bi : cart){
+                bi.setIdBill(bill);
+                billItemFacade.save(bi);
             }
             
             session.removeAttribute("customer");
@@ -81,31 +82,33 @@ public class CartController extends HttpServlet {
         }
         else if(action.equals("Add to Cart")){
             String idProductStr = request.getParameter("idProduct");
-            int idProduct = Integer.parseInt(idProductStr);
+            Integer idProduct = Integer.parseInt(idProductStr);
             String quantityStr = request.getParameter("quantity");
             int quantity = Integer.parseInt(quantityStr);
             
             HttpSession session = request.getSession();
-            ArrayList<BillDetail> cart = (ArrayList<BillDetail>) session.getAttribute("cart");
-            int total = (int) session.getAttribute("total");
+            ArrayList<BillItem> cart = (ArrayList<BillItem>) session.getAttribute("cart");
+            float total = (float) session.getAttribute("total");
             
-            total = total + productFacade.FindById(idProduct).getPrice()*quantity;
+            total = total + productFacade.findById(idProduct).getPrice()*quantity;
             
             boolean isExist = false;
             
-            for(BillDetail bd : cart){
-                if(bd.getIdProduct().getId()==idProduct){
-                    bd.setQuantity(bd.getQuantity()+quantity);
+            for(BillItem bi : cart){
+                if(bi.getIdProduct().getId()==idProduct){
+                    bi.setQuantity(bi.getQuantity()+quantity);
                     isExist = true;
                     break;
                 }
             }
             
             if(isExist==false){
-                BillDetail billDetail = new BillDetail();
-                billDetail.setIdProduct(productFacade.FindById(idProduct));
-                billDetail.setQuantity(quantity);
-                cart.add(billDetail);
+                BillItem billItem = new BillItem();
+                Product p = productFacade.findById(idProduct);
+                billItem.setIdProduct(p);
+                billItem.setQuantity(quantity);
+                billItem.setUnitPrice(p.getPrice());
+                cart.add(billItem);
             }
             
             ArrayList<Product> products = new ArrayList<>( productFacade.findAll());
@@ -118,13 +121,13 @@ public class CartController extends HttpServlet {
             int idProduct = Integer.parseInt(idProductStr);
             
             HttpSession session = request.getSession();
-            ArrayList<BillDetail> cart = (ArrayList<BillDetail>) session.getAttribute("cart");
-            int total = (int) session.getAttribute("total");
+            ArrayList<BillItem> cart = (ArrayList<BillItem>) session.getAttribute("cart");
+            float total = (float) session.getAttribute("total");
             
-            for(BillDetail bd : cart){
-                if(bd.getIdProduct().getId()==idProduct){
-                    total = total - bd.getIdProduct().getPrice()*bd.getQuantity();
-                    cart.remove(bd);
+            for(BillItem bi : cart){
+                if(bi.getIdProduct().getId()==idProduct){
+                    total = total - bi.getIdProduct().getPrice()*bi.getQuantity();
+                    cart.remove(bi);
                     break;
                 }
             }
