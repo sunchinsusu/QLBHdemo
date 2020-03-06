@@ -6,6 +6,7 @@
 package com.nguyentienthuat.sessionbean;
 
 import com.nguyentienthuat.entity.Bill;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -33,6 +34,8 @@ public interface BillFacadeLocal {
     Bill findById(int id);
 
     int save(Bill bill);
+
+    List<Bill> getByDate(Date startDate, Date endDate);
 
     
 }

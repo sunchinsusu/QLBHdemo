@@ -72,6 +72,9 @@ public class HomeController extends HttpServlet {
             
             request.getRequestDispatcher("/bill.jsp").forward(request, response);
         }
+        else if(action.equals("Report Manager")){
+            request.getRequestDispatcher("/report.jsp").forward(request, response);
+        }
         else if(action.equals("Logout")){
             HttpSession session = request.getSession();
             session.removeAttribute("user");

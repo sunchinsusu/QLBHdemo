@@ -6,6 +6,7 @@
 package com.nguyentienthuat.sessionbean;
 
 import com.nguyentienthuat.entity.PayDetail;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -31,5 +32,7 @@ public interface PayDetailFacadeLocal {
     int count();
 
     List<PayDetail> findByIdBill(int idBill);
+
+    List<PayDetail> getByDate(String startDateStr, String endDateStr);
     
 }

@@ -7,8 +7,13 @@ package com.nguyentienthuat.sessionbean;
 
 import com.nguyentienthuat.entity.Bill;
 import com.nguyentienthuat.entity.PayDetail;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -42,6 +47,23 @@ public class PayDetailFacade extends AbstractFacade<PayDetail> implements PayDet
         Bill bill = billFacade.findById(idBill);
         Query query = em.createNamedQuery("PayDetail.findByIdBill");
         query.setParameter("idBill", bill);
+        return query.getResultList();
+    }
+    
+    @Override
+    public List<PayDetail> getByDate(String startDateStr, String endDateStr) {
+        Query query = em.createNamedQuery("PayDetail.getByDate");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date startDate = null;
+        Date endDate = null;
+        try {
+            startDate = format.parse(startDateStr);
+            endDate = format.parse(endDateStr);
+        } catch (ParseException ex) {
+            Logger.getLogger(PayDetailFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        query.setParameter("startDate", startDate);
+        query.setParameter("endDate", endDate);
         return query.getResultList();
     }
     

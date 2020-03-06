@@ -44,6 +44,10 @@
         <servlet-name>PaymentController</servlet-name>
         <servlet-class>com.nguyentienthuat.controller.PaymentController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ReportController</servlet-name>
+        <servlet-class>com.nguyentienthuat.controller.ReportController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/LoginController</url-pattern>
@@ -87,6 +91,10 @@
     <servlet-mapping>
         <servlet-name>PaymentController</servlet-name>
         <url-pattern>/PaymentController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReportController</servlet-name>
+        <url-pattern>/ReportController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

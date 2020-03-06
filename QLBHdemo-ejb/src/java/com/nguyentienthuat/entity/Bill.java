@@ -39,6 +39,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Bill.findAll", query = "SELECT b FROM Bill b")
     , @NamedQuery(name = "Bill.findById", query = "SELECT b FROM Bill b WHERE b.id = :id")
     , @NamedQuery(name = "Bill.findByDate", query = "SELECT b FROM Bill b WHERE b.date = :date")
+    , @NamedQuery(name = "Bill.getByDate", query = "SELECT b FROM Bill b WHERE b.date >= :startDate AND b.date <= :endDate")
     , @NamedQuery(name = "Bill.findByStatus", query = "SELECT b FROM Bill b WHERE b.status = :status")})
 public class Bill implements Serializable {
 

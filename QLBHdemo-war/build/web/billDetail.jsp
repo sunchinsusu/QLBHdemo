@@ -18,6 +18,7 @@
             <input type="submit" name="action" value="Product Manager"/>
             <input type="submit" name="action" value="Bill Manager"/>
             <input type="submit" name="action" value="Customer Manager"/>
+            <input type="submit" name="action" value="Report Manager"/>
             <input type="submit" name="action" value="Logout"/>
         </form>
         <br/>

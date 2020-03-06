@@ -38,7 +38,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "PayDetail.findByDate", query = "SELECT p FROM PayDetail p WHERE p.date = :date")
     , @NamedQuery(name = "PayDetail.findByAmount", query = "SELECT p FROM PayDetail p WHERE p.amount = :amount")
     , @NamedQuery(name = "PayDetail.findByNote", query = "SELECT p FROM PayDetail p WHERE p.note = :note")
-    , @NamedQuery(name = "PayDetail.findByPaymentMethod", query = "SELECT p FROM PayDetail p WHERE p.paymentMethod = :paymentMethod")})
+    , @NamedQuery(name = "PayDetail.findByPaymentMethod", query = "SELECT p FROM PayDetail p WHERE p.paymentMethod = :paymentMethod")
+    , @NamedQuery(name = "PayDetail.getByDate", query = "SELECT p FROM PayDetail p WHERE p.date >= :startDate AND p.date <= :endDate")})
 public class PayDetail implements Serializable {
 
     private static final long serialVersionUID = 1L;

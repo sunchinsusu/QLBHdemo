@@ -6,6 +6,8 @@
 package com.nguyentienthuat.sessionbean;
 
 import com.nguyentienthuat.entity.Bill;
+import java.util.Date;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -48,4 +50,10 @@ public class BillFacade extends AbstractFacade<Bill> implements BillFacadeLocal 
     public void edit(Bill entity) {
         super.edit(entity); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public List<Bill> getByDate(Date startDate, Date endDate) {
+        return null;
+    }
+    
 }
